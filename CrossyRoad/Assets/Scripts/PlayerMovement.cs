@@ -21,22 +21,22 @@ public class PlayerMovement : MonoBehaviour
         // 현재위치와 목표 위치가 같으면 키를 누를 수 있음
         if (transform.position == targetPos)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
                 targetPos += Vector3.forward * moveDistance;
                 Debug.Log("앞");
             }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             {
                 targetPos += Vector3.back * moveDistance;
                 Debug.Log("뒤");
             }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
                 targetPos += Vector3.left * moveDistance;
                 Debug.Log("왼쪽");
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
                 targetPos += Vector3.right * moveDistance;
                 Debug.Log("오른쪽");
