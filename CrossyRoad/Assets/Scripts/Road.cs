@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Road : MonoBehaviour
 {
-    public Car CloneTarget = null;              // 차 프리팹
-    public Transform GenerationPos = null;      // 차량 생성 위치
+    public Car CloneTarget;              // 차 프리팹
+    public Transform GenerationPos;      // 차량 생성 위치
 
     public int GenerationPersent = 50;          // 차량 생성 확률, Random.Range()로 사용
 
     public float CloneDelaySec = 1f;            // 차량 생성 간격
 
     protected float NextSecToClone = 0f;        // 다음 생성까지 대기 시간
-    
+
 
     private void Update()
     {
@@ -20,7 +18,11 @@ public class Road : MonoBehaviour
                                         // Time.time은 게임이 시작된 후 흘러간 시간
         if (NextSecToClone <= currSec)  // 현재 시간이 NextSecToClone보다 크거나 같다면, 차량을 복제할 시간
         {
-            CloneCar();
+            int randomval = Random.Range(0, 100);
+            if(randomval <= GenerationPersent)
+            {
+                CloneCar();
+            }
             NextSecToClone = currSec + CloneDelaySec; // 차량을 복제하고, NextSecToClone을 다음 시간으로 업데이트
         }
     }

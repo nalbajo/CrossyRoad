@@ -5,6 +5,7 @@ using UnityEngine;
 public class Car : MonoBehaviour
 {
     [SerializeField] public float MoveSpeed;
+    [SerializeField] public float RangeDestroy = 12;
     void Start()
     {
         
@@ -16,7 +17,10 @@ public class Car : MonoBehaviour
         float movex = MoveSpeed * Time.deltaTime;
         this.transform.Translate(movex, 0f, 0f);
         
-
+        if(this.transform.localPosition.x >= RangeDestroy)
+        {
+            GameObject.Destroy(this.gameObject);
+        }
 
     }
 }

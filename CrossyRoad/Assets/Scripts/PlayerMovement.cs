@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float moveDistance;
     [SerializeField] float moveSpeed;
 
+    public Rigidbody rigid;
+
     public Vector3 targetPos; // 목표 위치
 
     private void Start()
@@ -45,4 +47,17 @@ public class PlayerMovement : MonoBehaviour
         // 목적지로 이동시키기
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"OntriggerEnter : {other.name}, {other.tag}");
+        if (other.tag.Contains("Crash"))
+        {
+            Debug.Log("충돌");
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        
+    }
+
 }
