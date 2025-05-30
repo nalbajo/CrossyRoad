@@ -17,7 +17,7 @@ public class Car : MonoBehaviour
         float movex = MoveSpeed * Time.deltaTime;
         this.transform.Translate(movex, 0f, 0f);
         
-        if(this.transform.localPosition.x >= RangeDestroy)
+        if(this.transform.position.x >= RangeDestroy)
         {
             GameObject.Destroy(this.gameObject);
         }
