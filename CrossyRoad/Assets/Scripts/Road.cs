@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Road : MonoBehaviour
 {
-    public Car CloneTarget;              // 차 프리팹
-    public Transform GenerationPos;      // 차량 생성 위치
+    public Transform CloneTarget;               // 차 프리팹
+    public Transform GenerationPos;             // 차량 생성 위치
 
     public int GenerationPersent = 50;          // 차량 생성 확률, Random.Range()로 사용
 
@@ -31,8 +31,7 @@ public class Road : MonoBehaviour
     {
         Transform clonePos = GenerationPos;     // 복제 위치를 GenerationPos로 설정
 
-        Vector3 offsetPos = clonePos.position;
-        offsetPos.y = 1f;       // 지정된 위치에서 Y값을 1로 설정하여 차량을 복제
+        Vector3 offsetPos = GenerationPos.position;
 
         GameObject cloneobj = GameObject.Instantiate
             (
