@@ -10,7 +10,7 @@ public class Raft : MonoBehaviour
     void Update()
     {
         float movex = MoveSpeed * Time.deltaTime;
-        this.transform.Translate(movex, 0f, 0f);
+        transform.position += new Vector3(movex, 0f, 0f);
 
         if (this.transform.position.x >= RangeDestroy)
         {

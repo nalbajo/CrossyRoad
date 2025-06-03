@@ -9,15 +9,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float moveDistance;
     [SerializeField] float moveSpeed;
 
+    [SerializeField] Raft RaftObject;
+    [SerializeField] Transform RaftCompareObj;
+
     public Rigidbody rigid;
 
     public Vector3 targetPos; // 목표 위치
+    public Vector3 RaftPos = Vector3.zero;
 
     private void Start()
     {
         transform.position = targetPos; // 현재 위치 = 목표 위치
     }
-    private void Update()
+
+    protected void InputUpdate()
     {
         // 키를 한 번 누르고 도착해야 누를 수 있게
         // 현재위치와 목표 위치가 같으면 키를 누를 수 있음
@@ -46,10 +51,66 @@ public class PlayerMovement : MonoBehaviour
         }
         // 목적지로 이동시키기
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+
     }
+
+    private Vector3 lastRaftPosition;
+
+    protected void UpdateRaft()
+    {
+        if (RaftObject == null)
+            return;
+
+        Vector3 currentRaftPos = RaftObject.transform.position;
+        Vector3 delta = currentRaftPos - lastRaftPosition;
+
+        
+        // 플레이어가 움직이고 있는 도중이라면 이동 대상 좌표(targetPos)에도 Raft의 이동을 더해줌
+        targetPos += delta;
+        transform.position += delta; // 뗏목이 움직인 만큼 플레이어도 움직임
+        lastRaftPosition = currentRaftPos;
+    }
+
+    private void Update()
+    {
+        InputUpdate();
+        UpdateRaft();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"OntriggerEnter : {other.name}, {other.tag}");
+
+        Debug.Log($"[Trigger] 충돌된 오브젝트: {other.name}");
+        Debug.Log($"[Trigger] 오브젝트 태그: {other.tag}");
+        Debug.Log($"[Trigger] 부모 오브젝트: {other.transform.parent?.name}");
+        Debug.Log($"[Trigger] Raft 컴포넌트가 부모에 있나? {(other.transform.parent?.GetComponent<Raft>() != null)}");
+
+
+        if (other.tag.Contains("Raft"))
+        {
+            Debug.Log("[Trigger] Raft!");
+            Raft raft = other.GetComponent<Raft>();
+            if (raft == null)
+                raft = other.GetComponentInParent<Raft>();
+            if (raft == null)
+                raft = other.GetComponentInChildren<Raft>();
+
+            if (RaftObject != null)
+            {
+                Debug.Log("[Trigger] RaftComponent 연결됨");
+                RaftCompareObj = RaftObject.transform;
+                RaftPos = this.transform.position - RaftObject.transform.position;
+                lastRaftPosition = RaftObject.transform.position; // 탑승 시 위치 기억
+            }
+            else
+            {
+                Debug.LogWarning("RaftComponent를 찾을 수 없음!");
+            }
+            Debug.Log($"탔다 : {other.name}, {RaftPos}");
+            return;
+        }
+
         if (other.tag.Contains("Crash"))
         {
             Debug.Log("충돌");
@@ -57,7 +118,15 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        
+        Debug.Log($"OntriggerEnter : {other.name}, {other.tag}");
+
+        if (other.tag.Contains("Crash") && RaftCompareObj == other.transform.parent)
+        {
+            Debug.Log("충돌");
+            RaftCompareObj = null;
+            RaftObject = null;
+            RaftPos = Vector3.zero;
+        }
     }
 
 }
