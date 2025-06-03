@@ -87,28 +87,22 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"[Trigger] Raft 컴포넌트가 부모에 있나? {(other.transform.parent?.GetComponent<Raft>() != null)}");
 
 
-        if (other.tag.Contains("Raft"))
+        if (other.CompareTag("Raft")) // tag 비교는 Contains보다 CompareTag가 성능과 안정성 면에서 좋음
         {
-            Debug.Log("[Trigger] Raft!");
-            Raft raft = other.GetComponent<Raft>();
-            if (raft == null)
-                raft = other.GetComponentInParent<Raft>();
-            if (raft == null)
-                raft = other.GetComponentInChildren<Raft>();
+            RaftObject = other.GetComponent<Raft>()
+                      ?? other.GetComponentInParent<Raft>()
+                      ?? other.GetComponentInChildren<Raft>();
 
-            if (RaftObject != null)
+            if (RaftObject == null)
             {
-                Debug.Log("[Trigger] RaftComponent 연결됨");
-                RaftCompareObj = RaftObject.transform;
-                RaftPos = this.transform.position - RaftObject.transform.position;
-                lastRaftPosition = RaftObject.transform.position; // 탑승 시 위치 기억
+                Debug.LogWarning("Raft 컴포넌트를 찾을 수 없습니다.");
+                return;
             }
-            else
-            {
-                Debug.LogWarning("RaftComponent를 찾을 수 없음!");
-            }
+
+            RaftCompareObj = RaftObject.transform;
+            RaftPos = this.transform.position - RaftObject.transform.position;
+            lastRaftPosition = RaftObject.transform.position; // 뗏목 위에 탔을 때 위치 저장
             Debug.Log($"탔다 : {other.name}, {RaftPos}");
-            return;
         }
 
         if (other.tag.Contains("Crash"))
