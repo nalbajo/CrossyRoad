@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     // 플레이어 이동 구현
     [SerializeField] float moveDistance;
     [SerializeField] float moveSpeed;
+    [SerializeField] private int playerHealth;
+
+    [SerializeField] LayerMask obstacleMask;
 
     [SerializeField] Raft RaftObject;
     [SerializeField] Transform RaftCompareObj;
@@ -24,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     protected void InputUpdate()
     {
+        Vector3 dir = Vector3.zero;
         // 키를 한 번 누르고 도착해야 누를 수 있게
         // 현재위치와 목표 위치가 같으면 키를 누를 수 있음
         if (transform.position == targetPos)
@@ -48,11 +53,18 @@ public class PlayerMovement : MonoBehaviour
                 targetPos += Vector3.right * moveDistance;
                 Debug.Log("오른쪽");
             }
+
+            if (dir == Vector3.zero) return;
         }
+
         // 목적지로 이동시키기
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
+
+        targetPos += dir * moveDistance;
     }
+    
+
 
     private Vector3 lastRaftPosition;
 
@@ -108,6 +120,17 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag.Contains("Crash"))
         {
             Debug.Log("충돌");
+            TakeHit();
+        }
+    }
+
+    public void TakeHit()
+    {
+        playerHealth--;
+
+        if (playerHealth == 0)
+        {
+            GameManager.Instance.OnPlayerDied.Invoke();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -122,5 +145,8 @@ public class PlayerMovement : MonoBehaviour
             RaftPos = Vector3.zero;
         }
     }
-
+    public void OnEnable()
+    {
+        playerHealth = 1;
+    }
 }
