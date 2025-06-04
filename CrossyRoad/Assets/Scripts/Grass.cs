@@ -9,16 +9,6 @@ public class Grass : MonoBehaviour
 
     public int SpawnCreateRandom = 50;
 
-    public void GeneratorRoundBlock()
-    {
-
-    }
-
-    public void GeneratorBackBlock()
-    {
-
-    }
-
     public void GeneratorEnvirment()
     {
         int randomindex = 0;

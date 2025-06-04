@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    public GameObject[] ObjectArray;
+    public enum E_EnvirementType
+    {
+        Grass = 0,
+        Road,
+        Water,
+
+        Max
+    }
+
+    public GameObject[] ObjectArray = new GameObject[(int)E_EnvirementType.Max];
+    public Road DefalutRoad;
+    public Road WaterRoad;
+
     public Transform ParentTransform;
 
     public int MinPosZ = -20;
     public int MaxPosZ = 20;
 
-    private void Start()
+    public void InitMap()
     {
-        for(int i = MinPosZ; i < MaxPosZ; ++i)
+        for (int i = MinPosZ; i < MaxPosZ; ++i)
         {
             CloneRoad(i);
         }

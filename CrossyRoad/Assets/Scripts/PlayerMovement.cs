@@ -85,6 +85,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance || !GameManager.Instance.IsGameStarted)
+            return;
+
         InputUpdate();
         UpdateRaft();
     }
@@ -143,6 +146,16 @@ public class PlayerMovement : MonoBehaviour
             RaftCompareObj = null;
             RaftObject = null;
             RaftPos = Vector3.zero;
+        }
+
+        if (other.CompareTag("Raft"))
+        {
+            // 플레이어가 뗏목에서 내려감
+            if (RaftObject != null && other.transform.IsChildOf(RaftObject.transform))
+            {
+                Debug.Log("플레이어가 뗏목에서 내려감.");
+                RaftObject = null;
+            }
         }
     }
     public void OnEnable()

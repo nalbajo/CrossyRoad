@@ -817,6 +817,8 @@ MonoBehaviour:
   - {fileID: 1444679349}
   - {fileID: 1106307937}
   - {fileID: 205005849}
+  DefalutRoad: {fileID: 0}
+  WaterRoad: {fileID: 0}
   ParentTransform: {fileID: 0}
   MinPosZ: -20
   MaxPosZ: 20
@@ -1644,7 +1646,7 @@ Transform:
   m_GameObject: {fileID: 1073551252}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5.57}
+  m_LocalPosition: {x: 0, y: 0, z: -5.5}
   m_LocalScale: {x: 2.8058, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2049,10 +2051,12 @@ MonoBehaviour:
   playerObject: {fileID: 1807059682}
   gameOverPanel: {fileID: 307896789}
   gameStartPanel: {fileID: 1894381996}
+  startBtn: {fileID: 1744900574}
   spawnPos: {fileID: 1914137597}
   retryBtn: {fileID: 2091759402}
   cameraObject: {fileID: 963194225}
   spawnCamera: {fileID: 2060025848}
+  mapManager: {fileID: 460224990}
   OnPlayerDied:
     m_PersistentCalls:
       m_Calls: []
@@ -2347,7 +2351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894381997}
   m_Layer: 0
-  m_Name: StartPanel
+  m_Name: GameStartPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2768,7 +2772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.08627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

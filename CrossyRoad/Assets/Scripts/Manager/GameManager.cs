@@ -20,7 +20,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject cameraObject;
     [SerializeField] private Transform spawnCamera;
 
+    [SerializeField] private MapManager mapManager;
+
     public UnityEvent OnPlayerDied = new UnityEvent();
+
+    public bool IsGameStarted { get; internal set; } = false;
 
     private void Start()
     {
@@ -33,17 +37,26 @@ public class GameManager : MonoBehaviour
         gameOverPanel.SetActive(false);
 
         // 플레이어 - 카메라 위치 원점 복구 및 비활성화
-        playerObject.SetActive(false);
         playerObject.transform.position = spawnPos.position;
         cameraObject.transform.position = spawnCamera.position;
+
+        playerObject.SetActive(true);
+        IsGameStarted = false;
     }
     private void GameStart()
     {
-        gameStartPanel.SetActive(true);
+        gameStartPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+
+        mapManager.InitMap();
+
         playerObject.transform.position = spawnPos.position;	// 스폰 위치 초기화
+        playerObject.SetActive(true);
         cameraObject.transform.position = spawnCamera.position;
+
+        IsGameStarted = true;
     }
+
 
     private void OnEnable()
     {
@@ -70,12 +83,14 @@ public class GameManager : MonoBehaviour
     {
         OnPlayerDied.RemoveListener(GameOver);
         retryBtn.onClick.RemoveListener(GameStart);
+        startBtn.onClick.RemoveListener(GameStart);
     }
     public void GameOver()
     {
         playerObject.SetActive(false);
-
         gameOverPanel.SetActive(true);
+
+        IsGameStarted = false;
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;         // 카메라가 따라갈 대상 (예: 플레이어)
-    public float forwardSpeed = 1f;  // 시간에 따라 전진하는 속도
+    public float forwardSpeed = 0.1f;  // 시간에 따라 전진하는 속도
     private Vector3 offset;          // 초기 거리 차이 (카메라와 대상 간의 거리)
     private float currentZ; // 현재 카메라의 z위치
 
@@ -17,6 +17,9 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!GameManager.Instance || !GameManager.Instance.IsGameStarted)
+            return;
+
         // 시간에 따라 카메라 z위치 증가
         currentZ += forwardSpeed * Time.deltaTime;
 
